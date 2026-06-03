@@ -1,0 +1,3 @@
+[server]
+# Disable file watching in limited Linux/container environments to avoid inotify limits.
+fileWatcherType = "none"
