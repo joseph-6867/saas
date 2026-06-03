@@ -309,12 +309,17 @@ def process_oauth_redirect() -> None:
     params = st.query_params
 
     # Google sends ?error= if user denies access
-    if "error" in params:
-        st.error(f"Google login was cancelled: {params.get('error')}")
+    error = params.get("error")
+    if error:
+        if isinstance(error, list):
+            error = error[0]
+        st.error(f"Google login was cancelled: {error}")
         st.query_params.clear()
         return
 
     code = params.get("code")
+    if isinstance(code, list):
+        code = code[0]
     if not code:
         return   # normal page load — nothing to do
 
